@@ -1,5 +1,9 @@
 package com.example.getusdservicetemplate
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -9,6 +13,8 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.ArrayAdapter
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 private val valuete = arrayOf("USD","RUB","EUR")
@@ -25,6 +31,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val CHANNEL_ID = "CHANNEL_ID"
+        val channel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel(CHANNEL_ID,"name", NotificationManager.IMPORTANCE_DEFAULT)
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
+
+
         val currencyListView: ListView = findViewById(R.id.listViewCurrency)
         val cryptoListView: ListView = findViewById(R.id.listViewCrypto)
         val adapter = ArrayAdapter(this,android.R.layout.simple_list_item_single_choice,valuete)
@@ -67,7 +81,6 @@ class MainActivity : AppCompatActivity() {
 
     fun initView() {
         textRate = findViewById(R.id.textUsdRubRate)
-        textTargetRate = findViewById(R.id.textTargetRate)
         rootView = findViewById(R.id.rootView)
 
         findViewById<Button>(R.id.btnRefresh).setOnClickListener {
@@ -77,14 +90,11 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnSubscribeToRate).setOnClickListener {
             selectedOption2= selectedOption
             selectedOption3= selectedOption1
-            val targetRate = textTargetRate.text.toString()
             val startRate = viewModel.usdRate.value
 
-            if (targetRate.isNotEmpty() && startRate?.isNotEmpty() == true) {
+            if (startRate?.isNotEmpty() == true) {
                 RateCheckService.stopService(this)
-                RateCheckService.startService(this, startRate, targetRate)
-            } else if (targetRate.isEmpty()) {
-                Snackbar.make(rootView, R.string.target_rate_empty, Snackbar.LENGTH_SHORT).show()
+                RateCheckService.startService(this, startRate)
             } else if (startRate.isNullOrEmpty()) {
                 Snackbar.make(rootView, R.string.current_rate_empty, Snackbar.LENGTH_SHORT).show()
             }

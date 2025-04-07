@@ -88,33 +88,6 @@
         app:layout_constraintTop_toBottomOf="@id/textUsdRubRate"
         android:text="@string/refresh_rate" />
 
-    <!-- Целевой курс -->
-    <!-- Целевой курс -->
-    <TextView
-        android:id="@+id/labelTargetRate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/target_rate"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnRefresh"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-    <EditText
-        android:id="@+id/textTargetRate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:gravity="center"
-        android:hint="75.12"
-        android:inputType="numberDecimal"
-        app:layout_constraintTop_toBottomOf="@id/btnRefresh"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/labelTargetRate" />
-
 
     <!-- Кнопка подписки -->
     <Button
@@ -124,7 +97,7 @@
         android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textTargetRate"
+        app:layout_constraintTop_toBottomOf="@id/btnRefresh"
         android:text="@string/subscribe" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
